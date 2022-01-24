@@ -1,12 +1,12 @@
-# tsiraM-6502
-tsiraM is a virtual 6502 processor written in TypeScript and running on Node.js.  This project is the practical component of Prof. Gormanly's Computer Organization and Architecture class.  This project strives to accomplish the following goals:
+# mos-6502-6502
+mos-6502 is a virtual 6502 processor written in TypeScript and running on Node.js.  This project is the practical component of Prof. Gormanly's Computer Organization and Architecture class.  This project strives to accomplish the following goals:
 - A deep understanding of how the machine works. There is no better way to learn how computers actually work than to build one!
 - You become a high level master of code by using OOP to create a virtual machine
 - You become a low level ninja, creating programs in machine instructions to run on your creation! Enriching your understanding of the world below your compiler.
 - Your design and debugging skills are pushed to solve problems that will melt your brain.  You will debug machine level code you write on a machine you built!
 
-## What does tsiraM mean?
-The project needed a name, I like WebOS since this project is built on web technologies and the long term plan is to use this VM as the basis for a Operating Systems project.  In that project you will build an OS that can run on this VM.  Unfortunately, while the name WebOS makes sense for these reasons, I do not like talking to Lawyers so I have decided to use tsiraM instead.  tsiraM is something I bought the .dot com for a while ago and have not gotten around to using it for anything. If it makes no sense, keep trying, I left a clue.  The 'M' might stand for Microarchitecture, or maybe not.  I wonder if the lawyers will come anyway?  Regardless this is a good name until something better comes along.  Maybe SObeW instead?
+## What does mos-6502 mean?
+The project needed a name, I like WebOS since this project is built on web technologies and the long term plan is to use this VM as the basis for a Operating Systems project.  In that project you will build an OS that can run on this VM.  Unfortunately, while the name WebOS makes sense for these reasons, I do not like talking to Lawyers so I have decided to use mos-6502 instead.  mos-6502 is something I bought the .dot com for a while ago and have not gotten around to using it for anything. If it makes no sense, keep trying, I left a clue.  The 'M' might stand for Microarchitecture, or maybe not.  I wonder if the lawyers will come anyway?  Regardless this is a good name until something better comes along.  Maybe SObeW instead?
 
 ## Credits
 This software is an adaptation of a project created by [Dr. Alan Labouseur's](http://labouseur.com/courses/os/) for his Operating Systems (CMPT 424) course project.  That project builds a very cool operating system on top of a rudimentary virtual 6502 CPU.  This project focuses on building a robust and complete 6502 architecture and instruction set.  You will be creating a 6502 emulator programmed using TypeScript that will run on server side JavaScript in Node.js.  Here are references to Dr. Labouseur's original projects:
@@ -14,11 +14,11 @@ This software is an adaptation of a project created by [Dr. Alan Labouseur's](ht
 - 2015-2018 version: https://github.com/AlanClasses/TSOS
 
 There are plans to possibly expand this project in a way that would allow you to continue to use it to build an adapted version of Dr. Labouseur's OS project on top of.  Here is an architecture diagram showing how this is planned currently.
-![tsiram-6502](./resources/images/architecture/projectArchitecture-v1.jpeg)
+![mos-6502](./resources/images/architecture/projectArchitecture-v1.jpeg)
 
 ## Getting Started
 
-To setup a development environment for tsiraM, you will need the following installed and setup:
+To setup a development environment for mos-6502, you will need the following installed and setup:
  - A terminal (If you are on windows I recommend gitbash which can be installed as part of your windows git client installation.
  - Node.js / npm
  - TypeScript (via npm)
@@ -67,10 +67,10 @@ If they are not installed you can manually do so this way:
 Terminal / powershell
 
 to navigate to this directory in Terminal/ Powershell, use:
-- ```cd C:\[your relative path]\422-tsiraM```
+- ```cd C:\[your relative path]\mos-6502```
 
 to navigate to this directory in gitbash, use:
--  ```cd "C:\[your relative path]\422-tsiraM"```
+-  ```cd "C:\[your relative path]\mos-6502"```
 
 you must run the transpile file after any changes have been made to compile the .ts into .js. Use:
 - cd into the correct directory 

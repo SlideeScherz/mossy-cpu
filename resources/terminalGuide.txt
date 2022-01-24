@@ -1,8 +1,8 @@
 to navigate to this directory in Terminal/ Powershell, use:
-  cd C:\Users\Scott\OneDrive\Documents\GitHub\422-tsiraM
+  cd C:\Users\Scott\OneDrive\Documents\GitHub\mos-6502
 
 to navigate to this directory in gitbash, use:
-  cd "C:\Users\Scott\OneDrive\Documents\GitHub\422-tsiraM"
+  cd "C:\Users\Scott\OneDrive\Documents\GitHub\mos-6502"
 
 you must run the c file after any changes have been made to compile the .ts into .js. Use:
   1.) cd into the correct directory 

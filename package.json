@@ -1,5 +1,5 @@
 {
-  "name": "tsiram-422",
+  "name": "mos-6502",
   "version": "0.0.1",
   "description": "A Virtual 6502 Computer built in TypeScript running in Node.js",
   "main": "dist/System.js",
