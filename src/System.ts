@@ -90,6 +90,19 @@ const helloWorld = [
   op.SYS,
 ];
 
+const powers = [
+  0xA9, 0x00, 
+  0x8D, 0x40, 0x00, 
+  0xA9, 0x01, 
+  0x6D, 0x40, 0x00, 
+  0x8D, 0x40, 0x00, 
+  0xA8,
+  0xA2, 0x01, 
+  0xFF, 
+  0xD0, 0xF4, 
+  0x00
+]
+
 var colors = require("../node_modules/colors/lib/index");
 
 export class System {
@@ -136,7 +149,7 @@ export class System {
 
     /*==================6502 Startup==================*/
 
-    this.loadProgram(0x00, helloWorld);
+    this.loadProgram(0x00, powers);
 
     //Pulse with a timed interval repeat
     const intervalObj = setInterval(() => {

@@ -79,6 +79,7 @@ export class MMU extends Hardware {
 
     let len = value.toString(16).length;
     let hex = value.toString(16).toUpperCase();
+    let errorMsg = `Cannot hex Convert ${hex} with ${bytes} bytes. Len: ${len}`;
 
     //16 bit formatting
     if (bytes === 2) {
@@ -98,25 +99,15 @@ export class MMU extends Hardware {
 
         case 4:
           return "0x" + hex;
+
+        default:
+          this.errorLog(this, errorMsg);
       }
     }
 
     //8 bit formatting
     else if (bytes === 1) {
-      switch (len) {
-        case 1:
-          return "0x0" + hex;
-
-        case 2:
-          return "0x" + hex;
-
-        case 3:
-          return "0x" + hex;
-
-        default:
-          this.errorLog(this, `Error hex decoding 8 bit number. with len of ${len}`);
-          return null;
-      }
+      return len < 6 ? "0x" + hex : "?";
     }
   }
 

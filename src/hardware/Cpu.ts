@@ -5,7 +5,6 @@ import { Interupt } from "./imp/interupt";
 import { ASCII } from "../utility/ascii";
 import { System } from "../System";
 import { op } from "../utility/opCode";
-import { off } from "process";
 
 var colors = require("../../node_modules/colors/lib/index");
 
@@ -99,6 +98,79 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
     this.pipelineLog.push(pipelineState);
   }
 
+  /**Logic based off sReg
+   * - Handles errors, overflow and other sReg commands
+   */
+  private getStatus(): void {
+    switch (this.sReg) {
+      case null:
+        //pass. no work to do
+        break;
+      case 0:
+        this.log(this, "Carry Flag thrown");
+        break;
+      case 1:
+        this.log(this, "Zero Flag thrown");
+        break;
+      case 2:
+        this.log(this, "Interupt Recd.");
+        break;
+      case 3:
+        this.log(this, "Decimal Flag thrown");
+        break;
+      case 4:
+        this.log(this, "Brk Flag thrown. Shutting down");
+        System.stopSystem();
+        break;
+      case 5:
+        this.log(this, "sReg bit 5 coming in a later release");
+        break;
+      case 6:
+        this.errorLog(this, `Warning! Overflow`);
+        break;
+      case 7:
+        this.errorLog(this, `Warning, Negative flag`);
+        break;
+      default:
+        this.errorLog(this, "Cannot read sReg");
+        break;
+    }
+  }
+
+  /**Logic based off sReg
+   * - Handles errors, overflow and other sReg commands
+   */
+  private monitorRegisters(): void {
+    /**Array of 16 bit registers to quickly evaluate in sReg*/
+    let twoByteRegArr: number[] = [this.pc, this.sp];
+
+    /**Array of 8 bit registers to quickly evaluate in sReg*/
+    let oneByteRegArr: number[] = [this.ir, this.xReg, this.yReg];
+
+    /**All CPU and MMU Registers */
+    let allRegArr: number[] = twoByteRegArr.concat(oneByteRegArr);
+
+    //check all registers and make sure they are within bounds
+    oneByteRegArr.forEach((reg) => {
+      if (reg > 0xff) {
+        this.sReg = 6;
+      }
+    });
+
+    //check all registers and make sure they are within bounds
+    twoByteRegArr.forEach((reg) => {
+      if (reg > 0xffff) {
+        this.sReg = 6;
+      }
+    });
+
+    allRegArr.forEach((reg) => {
+      if (reg < 0) {
+        this.sReg = 7;
+      }
+    });
+  }
+
   /** Get next opCode instruction.
    * - Always step 1.
    * - Uses the Program counter to select memory location.
@@ -113,7 +185,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
     //Set the IR to the current data at the address in the PC
     this.ir = MMU_CPU.read(this.pc);
 
-    if (this.debug) console.time(`Running ${MMU_CPU.hexLog(this.ir, 1)}`);
+    //if (this.debug) console.time(`Running ${MMU_CPU.hexLog(this.ir, 1)}`);
   }
 
   /** Decode the operands for an instruction
@@ -155,7 +227,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
     //end the pipeline and restart, or handle interupt
     this.OpComplete = true;
 
-    if (this.debug) console.timeEnd(`Running ${MMU_CPU.hexLog(this.ir, 1)}`);
+    //if (this.debug) console.timeEnd(`Running ${MMU_CPU.hexLog(this.ir, 1)}`);
   }
 
   /** resets pipeline Logic for when a operation is done*/
@@ -297,11 +369,6 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
 
       case 4:
         this.acc = MMU_CPU.read(this.sp) + this.acc;
-        //check overflow
-        if (this.acc > 0xffff) {
-          this.sReg = 6;
-          this.errorLog(this, "Warning, overflow");
-        }
         break;
 
       case 5:
@@ -494,7 +561,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       case 4:
-        if (this.xReg === MMU_CPU.read(this.sp)){
+        if (this.xReg === MMU_CPU.read(this.sp)) {
           this.sReg = 1; //set zFlag
         }
         break;
@@ -519,9 +586,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
       case 3:
         if (this.sReg !== 1) {
           let offset = this.getOffset(MMU.decodedByte1);
-          console.log(`Branching. pc: ${this.pc} offset: ${offset}`);
           this.pc -= offset;
-          console.log(`Branched. pc now: ${this.pc} `);
         }
 
         break;
@@ -600,17 +665,8 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
     }
   }
 
-  /** Called each clock pulse From Interface ```clockListener```
-   * - Execute OpCode based on IR
-   */
-  pulse(): void {
-    //see the initial state of the CPU
-    if (this.cpuClockCount === 0) console.log(colors.blue.bold("Output: "));
-
-    //increment for each pulse
-    this.cpuClockCount++;
-    this.step++;
-
+  /**Implements all CPU methods for better better logic flow */
+  private runPipeline(): void {
     //Always step 1. Fetch the opcode
     if (this.step === 1) {
       this.fetch();
@@ -698,17 +754,32 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         this.sReg = 4; //throw breakflag
         break;
     }
+  }
+
+  /** Called each clock pulse From Interface ```clockListener```
+   * - Simulate CPU Pipeline
+   */
+  pulse(): void {
+    //see the initial state of the CPU
+    if (this.cpuClockCount === 0) console.log(colors.blue.bold("Output: "));
+
+    //increment for each pulse
+    this.cpuClockCount++;
+    this.step++;
+
+    //handle instructions
+    this.runPipeline();
+
+    //set sReg is any issues detected
+    this.monitorRegisters();
+
+    //check CPU status
+    this.getStatus();
 
     //Write to the pipeline log after each pulse
     this.writePipeLineLog();
 
     //Restart Pipline process after logic is set to completed
     if (this.OpComplete) this.restartPipeline();
-
-    if (this.sReg === 4) {
-      console.log(); // Add space
-      if (this.debug) console.table(this.pipelineLog);
-      System.stopSystem();
-    }
   }
 }
