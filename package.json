@@ -1,0 +1,31 @@
+{
+  "name": "tsiram-422",
+  "version": "0.0.1",
+  "description": "A Virtual 6502 Computer built in TypeScript running in Node.js",
+  "main": "dist/System.js",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "typescript": "^3.7.4"
+  },
+  "devDependencies": {
+    "@types/node": "^13.13.52"
+  },
+  "scripts": {
+    "start": "node ./dist/System.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SlideeScherz/mos-6502.git"
+  },
+  "keywords": [
+    "6502",
+    "Virtual Machine"
+  ],
+  "author": "scott.scherzer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SlideeScherz/mos-6502/issues"
+  },
+  "homepage": "https://github.com/SlideeScherz/mos-6502#readme"
+}
