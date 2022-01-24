@@ -110,8 +110,11 @@ export class MMU extends Hardware {
         case 2:
           return "0x" + hex;
 
+        case 3:
+          return "0x" + hex;
+
         default:
-          this.errorLog(this, "Error hex decoding 8 bit number.");
+          this.errorLog(this, `Error hex decoding 8 bit number. with len of ${len}`);
           return null;
       }
     }

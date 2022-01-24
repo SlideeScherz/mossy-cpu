@@ -5,6 +5,7 @@ import { Interupt } from "./imp/interupt";
 import { ASCII } from "../utility/ascii";
 import { System } from "../System";
 import { op } from "../utility/opCode";
+import { off } from "process";
 
 var colors = require("../../node_modules/colors/lib/index");
 
@@ -111,6 +112,8 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
 
     //Set the IR to the current data at the address in the PC
     this.ir = MMU_CPU.read(this.pc);
+
+    if (this.debug) console.time(`Running ${MMU_CPU.hexLog(this.ir, 1)}`);
   }
 
   /** Decode the operands for an instruction
@@ -151,6 +154,8 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
 
     //end the pipeline and restart, or handle interupt
     this.OpComplete = true;
+
+    if (this.debug) console.timeEnd(`Running ${MMU_CPU.hexLog(this.ir, 1)}`);
   }
 
   /** resets pipeline Logic for when a operation is done*/
@@ -489,7 +494,9 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       case 4:
-        if (this.xReg === MMU_CPU.read(this.sp)) this.sReg = 1; //set zFlag
+        if (this.xReg === MMU_CPU.read(this.sp)){
+          this.sReg = 1; //set zFlag
+        }
         break;
 
       case 5:
@@ -510,7 +517,13 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       case 3:
-        if (this.sReg !== 1) this.pc -= this.getOffset(MMU.decodedByte1);
+        if (this.sReg !== 1) {
+          let offset = this.getOffset(MMU.decodedByte1);
+          console.log(`Branching. pc: ${this.pc} offset: ${offset}`);
+          this.pc -= offset;
+          console.log(`Branched. pc now: ${this.pc} `);
+        }
+
         break;
 
       case 4:
@@ -680,10 +693,8 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       default:
-        this.errorLog(
-          this,
-          `Illegal value in IR: ${this.ir}. Forcing Shutdown`
-        );
+        this.errorLog(this, `Illegal value in IR: ${this.ir.toString(16)}`);
+        this.errorLog(this, `Forcing Shutdown`);
         this.sReg = 4; //throw breakflag
         break;
     }

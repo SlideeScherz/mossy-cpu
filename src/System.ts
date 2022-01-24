@@ -11,6 +11,85 @@ import { op } from "./utility/opCode";
 //Possibly the max speed for node.js
 const CLOCK_INTERVAL: number = 20;
 
+/**test bounds and memory of your 6502*/
+const stessTest = [
+  op.LDA,
+  0xa9,
+  op.LDX,
+  0x01,
+  op.CPX,
+  0x13,
+  0x00,
+  op.LDY_Mem,
+  0x0b,
+  0x00,
+  op.STA,
+  0xf0,
+  0x00,
+  op.INC,
+  0x0b,
+  0x00,
+  op.BNE,
+  0xf5,
+  0x00,
+  0x00, //brk
+];
+
+/**Print hello world to the screen */
+const helloWorld = [
+  op.LDX,
+  0x02,
+
+  // load yReg with string, then Print yReg String
+  op.LDY,
+  0x48,
+  op.SYS,
+
+  op.LDY,
+  0x65,
+  op.SYS,
+
+  op.LDY,
+  0x6c,
+  op.SYS,
+
+  op.LDY,
+  0x6c,
+  op.SYS,
+
+  op.LDY,
+  0x6f,
+  op.SYS,
+
+  op.LDY,
+  0x20,
+  op.SYS,
+
+  op.LDY,
+  0x57,
+  op.SYS,
+
+  op.LDY,
+  0x6f,
+  op.SYS,
+
+  op.LDY,
+  0x72,
+  op.SYS,
+
+  op.LDY,
+  0x6c,
+  op.SYS,
+
+  op.LDY,
+  0x64,
+  op.SYS,
+
+  op.LDY,
+  0x21,
+  op.SYS,
+];
+
 var colors = require("../node_modules/colors/lib/index");
 
 export class System {
@@ -25,6 +104,19 @@ export class System {
 
   constructor() {
     this.startSystem();
+  }
+
+  /** Load an array of opcodes and data into memory
+   * @param startAddress RAM Address to start writing
+   * @param program Array of data
+   */
+  private loadProgram(startAddress: number, program: number[]): void {
+    var data = 0;
+
+    for (let i = startAddress; data < program.length; i++) {
+      this._MMU.write(i, program[data]);
+      data++;
+    }
   }
 
   public startSystem(): boolean {
@@ -44,60 +136,7 @@ export class System {
 
     /*==================6502 Startup==================*/
 
-    //Hello world!
-
-    // load constant 2 to xReg
-    this._MMU.write(0x0000, op.LDX);
-    this._MMU.write(0x0001, 0x02);
-
-    // load yReg with string
-    this._MMU.write(0x0002, op.LDY);
-    this._MMU.write(0x0003, 0x48); //H
-    this._MMU.write(0x0004, op.SYS); //Print yReg String
-
-    this._MMU.write(0x0005, op.LDY);
-    this._MMU.write(0x0006, 0x65); //e
-    this._MMU.write(0x0007, op.SYS); //Print yReg String
-
-    this._MMU.write(0x0008, op.LDY);
-    this._MMU.write(0x0009, 0x6c); //l
-    this._MMU.write(0x000a, op.SYS); //Print yReg String
-
-    this._MMU.write(0x000b, op.LDY);
-    this._MMU.write(0x000c, 0x6c); //l
-    this._MMU.write(0x000d, op.SYS); //Print yReg String
-
-    this._MMU.write(0x000e, op.LDY);
-    this._MMU.write(0x000f, 0x6f); //o
-    this._MMU.write(0x0010, op.SYS); //Print yReg String
-
-    this._MMU.write(0x0011, op.LDY);
-    this._MMU.write(0x0012, 0x20); //space
-    this._MMU.write(0x0013, op.SYS); //Print yReg String
-
-    this._MMU.write(0x0014, op.LDY);
-    this._MMU.write(0x0015, 0x57); //w
-    this._MMU.write(0x0016, op.SYS); //Print yReg String
-
-    this._MMU.write(0x0017, op.LDY);
-    this._MMU.write(0x0018, 0x6f); //o
-    this._MMU.write(0x0019, op.SYS); //Print yReg String
-
-    this._MMU.write(0x001a, op.LDY);
-    this._MMU.write(0x001b, 0x72); //r
-    this._MMU.write(0x001c, op.SYS); //Print yReg String
-
-    this._MMU.write(0x001d, op.LDY);
-    this._MMU.write(0x001e, 0x6c); //l
-    this._MMU.write(0x001f, op.SYS); //Print yReg String
-
-    this._MMU.write(0x0020, op.LDY);
-    this._MMU.write(0x0021, 0x64); //d
-    this._MMU.write(0x0022, op.SYS); //Print yReg String
-
-    this._MMU.write(0x0023, op.LDY);
-    this._MMU.write(0x0024, 0x21); //!
-    this._MMU.write(0x0025, op.SYS); //Print yReg String
+    this.loadProgram(0x00, helloWorld);
 
     //Pulse with a timed interval repeat
     const intervalObj = setInterval(() => {
