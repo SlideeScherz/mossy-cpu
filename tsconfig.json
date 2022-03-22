@@ -9,9 +9,11 @@
     },
 
     "include": [
-        "src/**/*"
+      "src/**/*"
     ],
     "exclude": [
-      "./node_modules"
+      "./tests/",
+      "./node_modules/",
+      "./dist/"
     ]
 }
