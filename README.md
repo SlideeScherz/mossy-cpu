@@ -72,7 +72,7 @@ If not present in directory, run
 npm install @types/node --save-dev
 ```
 
-## Fixing bugs from t.bash
+### Fixing bugs from t.bash
 
 Some bugs may be from a transpile error. To delete the Dist (JavaScript folder) run:
 
