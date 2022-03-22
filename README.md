@@ -2,6 +2,8 @@
 
 ![build-badge] ![lint-badge]
 
+## Test. Delete me
+
 mos-6502 is a virtual 6502 processor written in TypeScript
 and running on Node.js. This project is the practical
 component of Prof. Gormanly's Computer Organization and
