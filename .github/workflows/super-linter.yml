@@ -1,4 +1,4 @@
-# This workflow executes several linters on changed files based on languages used in your code base whenever
+# This workflow executes several linters on (SWITCHED TO ALL) changed files based on languages used in your code base whenever
 # you push a code or open a pull request.
 #
 # You can adjust the behavior by modifying this file.
@@ -24,6 +24,6 @@ jobs:
       - name: Lint Code Base
         uses: github/super-linter@v4
         env:
-          VALIDATE_ALL_CODEBASE: false
+          #VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
