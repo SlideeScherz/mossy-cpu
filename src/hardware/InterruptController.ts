@@ -4,8 +4,7 @@ import { Interupt } from "./imp/interupt";
 
 export class InterruptController
   extends Hardware
-  implements ClockListener, Interupt
-{
+  implements ClockListener, Interupt {
   //Interupt members
   public IRQNum: number;
   public inputBuffer: any[];

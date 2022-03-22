@@ -27,3 +27,10 @@ jobs:
           #VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Ignore /dist folder since its transpiled.
+          VALIDATE_JAVASCRIPT_ES: false	
+          VALIDATE_JAVASCRIPT_STANDARD: false
+          VALIDATE_JSCPD: false
+          #these are fine
+          VALIDATE_JSON: false
+          VALIDATE_YAML: false
