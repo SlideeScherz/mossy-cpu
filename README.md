@@ -2,8 +2,6 @@
 
 ![build-badge] ![lint-badge]
 
-## Test. Delete me
-
 mos-6502 is a virtual 6502 processor written in TypeScript
 and running on Node.js. This project is the practical
 component of Prof. Gormanly's Computer Organization and
@@ -38,20 +36,15 @@ references to Dr. Labouseur's original projects:
 
 There are plans to possibly expand this project in a way that
 would allow you to continue to use it to build an adapted
-version of Dr. Labouseur's OS project on top of. Here is an
-architecture diagram showing how this is planned currently.
+version of Dr. Labouseur's OS project on top of.
 
-![mos-6502]
+## Usage
 
-## Getting Started
-
-### Node.js Installation
+### Install Node.js
 
 <https://nodejs.org/en/docs/guides/getting-started-guide/>
 
-<https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/development_environment>
-
-### TypeScript
+### Install TypeScript
 
 `npm install -g typescript`
 
@@ -63,37 +56,31 @@ Next, TypeScript must be compiled before you can run and after you make changes 
 
 Once you run it, you should see that a dist/ folder is created in your project home and it contains the JavaScript that your Node.js server will run.
 
-To start the Node.js server run `npm start` that's it!
+To start the Node.js server run
 
-Once you have your project going, you should be able to recompile using the 't.bash' bash script and then 'npm start' to run Node.js.
+```bash
+npm start
+```
+
+After any changes you must re-compile `t.bash` and then `npm start` to run Node.js.
 
 ### @types/Node.js
 
-Type definitions to be used for Node.js. This should be installed when you run `npm install` to install dependencies.
-See : <https://www.npmjs.com/package/@types/node>
-If they are not installed you can manually do so this way:
-`npm install @types/node --save-dev`
+If not present in directory, run
 
-## Other terminal commands
+```bash
+npm install @types/node --save-dev
+```
 
-Terminal / powershell
-
-to navigate to this directory in Terminal/ Powershell, use:
-
-- `cd C:\[your relative path]\mos-6502`
-
-to navigate to this directory in gitbash, use:
-
-- `cd "C:\[your relative path]\mos-6502"`
-
-you must run the transpile file after any changes have been made to compile the .ts into .js. Use:
-
-- cd into the correct directory
-- `./"t.bash"`
+## Fixing bugs from t.bash
 
 Some bugs may be from a transpile error. To delete the Dist (JavaScript folder) run:
 
-- `rm -rf dist/`
+```bash
+rm -rf dist/
+```
+
+Then recompile the `t.bash` script
 
 [build-badge]: https://github.com/SlideeScherz/mos-6502/actions/workflows/build-test.yml/badge.svg?branch=main
 [lint-badge]: https://github.com/SlideeScherz/mos-6502/workflows/Lint%20Code%20Base/badge.svg
