@@ -1,12 +1,12 @@
 // import classes
 import { Clock } from "./hardware/clock";
 import { Cpu } from "./hardware/Cpu";
-import { Hardware } from "./hardware/Hardware";
-import { Memory } from "./hardware/Memory";
 import { MMU } from "./hardware/MMU";
 import { Keyboard } from "./hardware/Keyboard";
 import { InterruptController } from "./hardware/InterruptController";
 import { op } from "./utility/opCode";
+
+var colors = require("../node_modules/colors/lib/index");
 
 //Possibly the max speed for node.js
 const CLOCK_INTERVAL: number = 20;
@@ -91,32 +91,22 @@ const helloWorld = [
 ];
 
 const powers = [
-  0xA9, 0x00, 
-  0x8D, 0x40, 0x00, 
-  0xA9, 0x01, 
-  0x6D, 0x40, 0x00, 
-  0x8D, 0x40, 0x00, 
-  0xA8,
-  0xA2, 0x01, 
-  0xFF, 
-  0xD0, 0xF4, 
-  0x00
-]
-
-var colors = require("../node_modules/colors/lib/index");
+  0xa9, 0x00, 0x8d, 0x40, 0x00, 0xa9, 0x01, 0x6d, 0x40, 0x00, 0x8d, 0x40, 0x00,
+  0xa8, 0xa2, 0x01, 0xff, 0xd0, 0xf4, 0x00,
+];
 
 export class System {
   //Initialization Parameters for Hardware
   private _CPU: Cpu = null;
-  private _Memory: Memory = null;
   private _Clock: Clock = null;
   private _MMU: MMU = null;
   private _KEY: Keyboard = null;
   private _IRQ: InterruptController = null;
-  private _Hardware: Hardware = null;
 
-  constructor() {
-    this.startSystem();
+  private debug: boolean = null;
+
+  constructor(debug: boolean) {
+    this.debug = debug;
   }
 
   /** Load an array of opcodes and data into memory
@@ -133,14 +123,12 @@ export class System {
   }
 
   public startSystem(): boolean {
-    /*==================Initialize Hardware (turn on components)==================*/
+    //Initialize Hardware (turn on components)
     this._CPU = new Cpu(1, "CPU", false);
-    this._Memory = new Memory(2, "RAM", false);
     this._Clock = new Clock(3, "CLK", false);
     this._MMU = new MMU(4, "MMU", false);
     this._KEY = new Keyboard(5, "KEY", false);
     this._IRQ = new InterruptController(6, "IRQ", false);
-    this._Hardware = new Hardware(7, "HW!", false);
 
     //populate Clock.listeners[] with hardware
     this._Clock.listeners[0] = this._CPU;
@@ -166,4 +154,5 @@ export class System {
 }
 
 //main
-let system: System = new System();
+let system: System = new System(false);
+system.startSystem();
