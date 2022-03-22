@@ -1,30 +1,26 @@
 import { expect } from "chai";
+import { Memory } from "../src/hardware/Memory";
+
+const mem = new Memory(11, "Memory.test.ts", false);
 
 describe("Memory", () => {
+  it("memory array type", () => {
+    expect(mem.memory).to.be.an("array");
+  });
 
-  // the tests container
-  it("Memory Capacity", () => {
+  it("memory capacity type", () => {
+    expect(mem.memoryCapacity).to.be.a("number");
+  });
 
-    // the single test
-    //const CPU = new Cpu(500, "CPU Test", false); 
+  it("memory capacity value", () => {
+    expect(mem.memoryCapacity).to.equal(0xffff);
+  });
 
-    /* detect retina */
-    expect(false).to.be.false; // Do I need to explain anything? It's like writing in English!
+  it("read/write", () => {
+    let addr: number = 1;
+    let data: number = 1;
 
-    /* fps limit */
-    expect(30).to.equal(30); // As I said 3 lines above
-
-    //replace with real CPU containers
-    var emptyArray = [];
-
-    expect(emptyArray).to.be.empty; // emitters property is an array and for this test must be empty, this syntax works with strings too
-    
-    /*
-    //test constructor
-    expect(CPU)
-      .to.be.an("object")
-      .to.have.property("value")
-      .to.equal(500); 
-    */
+    mem.memory[addr] = data;
+    expect(mem.memory[addr]).to.equal(data);
   });
 });
