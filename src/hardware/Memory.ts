@@ -1,4 +1,4 @@
-import { Hardware } from "./Hardware";
+import { Hardware } from './Hardware';
 
 /**
  * This class will hold all memory data and the memory array simulting a disc and ram

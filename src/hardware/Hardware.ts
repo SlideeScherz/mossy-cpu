@@ -1,4 +1,4 @@
-var colors = require("../../node_modules/colors/lib/index");
+var colors = require('../../node_modules/colors/lib/index');
 
 /** SuperClass for all hardware */
 export class Hardware {

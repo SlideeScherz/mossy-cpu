@@ -1,5 +1,5 @@
-import { Hardware } from "./Hardware";
-import { ClockListener } from "./imp/ClockListener";
+import { Hardware } from './Hardware';
+import { ClockListener } from './imp/ClockListener';
 
 export class Clock extends Hardware {
   /** Array to hold all listeners to be cycled */

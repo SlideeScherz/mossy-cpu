@@ -34,11 +34,11 @@ export class Keyboard extends Hardware implements ClockListener, Interupt {
     if (!rawMode) {
       this.log(
         this,
-        "gitBash cannot run 'setRawMode', so default is set to disabled."
+        'gitBash cannot run setRawMode, so default is set to disabled.'
       );
       this.log(
         this,
-        "To enable RawMode, in src/Keyboard.ts set rawMode to true"
+        'To enable RawMode, in src/Keyboard.ts set rawMode to true'
       );
     }
 

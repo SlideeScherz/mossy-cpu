@@ -1,6 +1,6 @@
 # mos-6502
 
-![build-badge] ![lint-badge]
+![build-badge]
 
 mos-6502 is a virtual 6502 processor written in TypeScript
 and running on Node.js. This project is the practical
@@ -83,5 +83,3 @@ rm -rf dist/
 Then recompile the `t.bash` script
 
 [build-badge]: https://github.com/SlideeScherz/mos-6502/actions/workflows/build-test.yml/badge.svg?branch=main
-[lint-badge]: https://github.com/SlideeScherz/mos-6502/workflows/Lint%20Code%20Base/badge.svg
-[mos-6502]: ./resources/images/architecture/projectArchitecture-v1.jpeg

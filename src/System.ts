@@ -1,12 +1,12 @@
 // import classes
-import { Clock } from "./hardware/clock";
-import { Cpu } from "./hardware/Cpu";
-import { MMU } from "./hardware/MMU";
-import { Keyboard } from "./hardware/Keyboard";
-import { InterruptController } from "./hardware/InterruptController";
-import { op } from "./utility/opCode";
+import { Clock } from './hardware/clock';
+import { Cpu } from './hardware/Cpu';
+import { MMU } from './hardware/MMU';
+import { Keyboard } from './hardware/Keyboard';
+import { InterruptController } from './hardware/InterruptController';
+import { op } from './utility/opCode';
 
-var colors = require("../node_modules/colors/lib/index");
+var colors = require('../node_modules/colors/lib/index');
 
 //Possibly the max speed for node.js
 const CLOCK_INTERVAL: number = 20;
@@ -124,11 +124,11 @@ export class System {
 
   public startSystem(): boolean {
     //Initialize Hardware (turn on components)
-    this._CPU = new Cpu(1, "CPU", false);
-    this._Clock = new Clock(3, "CLK", false);
-    this._MMU = new MMU(4, "MMU", false);
-    this._KEY = new Keyboard(5, "KEY", false);
-    this._IRQ = new InterruptController(6, "IRQ", false);
+    this._CPU = new Cpu(1, 'CPU', false);
+    this._Clock = new Clock(3, 'CLK', false);
+    this._MMU = new MMU(4, 'MMU', false);
+    this._KEY = new Keyboard(5, 'KEY', false);
+    this._IRQ = new InterruptController(6, 'IRQ', false);
 
     //populate Clock.listeners[] with hardware
     this._Clock.listeners[0] = this._CPU;
@@ -148,7 +148,7 @@ export class System {
   }
 
   public static stopSystem(): void {
-    console.log(colors.magenta("Info: [HW: SYS] : Shutting Down"));
+    console.log(colors.magenta('Info: [HW: SYS] : Shutting Down'));
     process.exit();
   }
 }

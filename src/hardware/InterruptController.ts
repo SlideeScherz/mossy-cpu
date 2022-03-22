@@ -1,6 +1,6 @@
-import { Hardware } from "./Hardware";
-import { ClockListener } from "./imp/ClockListener";
-import { Interupt } from "./imp/interupt";
+import { Hardware } from './Hardware';
+import { ClockListener } from './imp/ClockListener';
+import { Interupt } from './imp/interupt';
 
 export class InterruptController
   extends Hardware
@@ -18,7 +18,7 @@ export class InterruptController
   constructor(hardwareID: number, hardwareName: string, debug: boolean) {
     super(hardwareID, hardwareName, debug);
 
-    this.IRQname = "IRQ Controller";
+    this.IRQname = 'IRQ Controller';
   }
 
   /** Allow classes to call this and add data to the irq input buffer

@@ -1,7 +1,7 @@
-import { Hardware } from "./Hardware";
-import { Memory } from "./Memory";
+import { Hardware } from './Hardware';
+import { Memory } from './Memory';
 
-const mem = new Memory(2, "Memory / MMU", false);
+const mem = new Memory(2, 'Memory / MMU', false);
 
 /** __Memory Management Unit__
  * - This class will be responsible for the management of all memory
@@ -74,7 +74,7 @@ export class MMU extends Hardware {
   public hexLog(value: number, bytes: number): string {
     //Error handling
     if (value == undefined) {
-      return "undef.";
+      return 'undef.';
     }
 
     let len = value.toString(16).length;
@@ -84,21 +84,21 @@ export class MMU extends Hardware {
     //16 bit formatting
     if (bytes === 2) {
       if (value > 9 && value < 16) {
-        return "0x000" + hex;
+        return '0x000' + hex;
       }
 
       switch (len) {
         case 1:
-          return "0x000" + hex;
+          return '0x000' + hex;
 
         case 2:
-          return "0x00" + hex;
+          return '0x00' + hex;
 
         case 3:
-          return "0x0" + hex;
+          return '0x0' + hex;
 
         case 4:
-          return "0x" + hex;
+          return '0x' + hex;
 
         default:
           this.errorLog(this, errorMsg);
@@ -107,7 +107,7 @@ export class MMU extends Hardware {
 
     //8 bit formatting
     else if (bytes === 1) {
-      return len < 6 ? "0x" + hex : "?";
+      return len < 6 ? '0x' + hex : '?';
     }
   }
 
@@ -161,14 +161,14 @@ export class MMU extends Hardware {
    * @param endAddress indicates address to break
    */
   public memoryDump(startAddress: number, endAddress: number): void {
-    console.log("====================");
-    this.log(this, "Memory Dump");
+    console.log('====================');
+    this.log(this, 'Memory Dump');
 
     //create a json for each Memory address
     for (let i = startAddress; i <= endAddress; i++) {
       console.log(`Address: ${i}: ${this.read(i)}`);
     }
-    console.log("====================");
+    console.log('====================');
   }
 
   /** Reset all memory to 0x00 */

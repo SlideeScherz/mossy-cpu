@@ -1,15 +1,15 @@
-import { Hardware } from "./Hardware";
-import { ClockListener } from "./imp/ClockListener";
-import { MMU } from "./MMU";
-import { Interupt } from "./imp/interupt";
-import { ASCII } from "../utility/ascii";
-import { System } from "../System";
-import { op } from "../utility/opCode";
+import { Hardware } from './Hardware';
+import { ClockListener } from './imp/ClockListener';
+import { MMU } from './MMU';
+import { Interupt } from './imp/interupt';
+import { ASCII } from '../utility/ascii';
+import { System } from '../System';
+import { op } from '../utility/opCode';
 
-var colors = require("../../node_modules/colors/lib/index");
+var colors = require('../../node_modules/colors/lib/index');
 
 /**For access to non-static MMU Methods*/
-const MMU_CPU = new MMU(1, "MMU / CPU", false);
+const MMU_CPU = new MMU(1, 'MMU / CPU', false);
 const ascii = new ASCII(); //Unread, but do not delete
 
 /** The powerhouse */
@@ -18,7 +18,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
   public IRQNum: number = 0;
   public inputBuffer: number[] = [];
   public outputBuffer: number[] = [];
-  public IRQname: string = "CPU Interupt";
+  public IRQname: string = 'CPU Interupt';
 
   /**The clock cycles the CPU has executed */
   public cpuClockCount: number = 0;
@@ -63,7 +63,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
     super(hardwareID, hardwareName, debug);
 
     this.restartPipeline();
-    this.log(this, colors.green("Pipeline initiated and reset"));
+    this.log(this, colors.green('Pipeline initiated and reset'));
   }
 
   //========== CPU Methods ==========//
@@ -107,23 +107,23 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         //pass. no work to do
         break;
       case 0:
-        this.log(this, "Carry Flag thrown");
+        this.log(this, 'Carry Flag thrown');
         break;
       case 1:
-        this.log(this, "Zero Flag thrown");
+        this.log(this, 'Zero Flag thrown');
         break;
       case 2:
-        this.log(this, "Interupt Recd.");
+        this.log(this, 'Interupt Recd.');
         break;
       case 3:
-        this.log(this, "Decimal Flag thrown");
+        this.log(this, 'Decimal Flag thrown');
         break;
       case 4:
-        this.log(this, "Brk Flag thrown. Shutting down");
+        this.log(this, 'Brk Flag thrown. Shutting down');
         System.stopSystem();
         break;
       case 5:
-        this.log(this, "sReg bit 5 coming in a later release");
+        this.log(this, 'sReg bit 5 coming in a later release');
         break;
       case 6:
         this.errorLog(this, `Warning! Overflow`);
@@ -132,7 +132,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         this.errorLog(this, `Warning, Negative flag`);
         break;
       default:
-        this.errorLog(this, "Cannot read sReg");
+        this.errorLog(this, 'Cannot read sReg');
         break;
     }
   }
@@ -196,7 +196,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
     //one byte decode
     if (operands === 0) {
       data == undefined
-        ? this.errorLog(this, "Provide data in decode")
+        ? this.errorLog(this, 'Provide data in decode')
         : (MMU.decodedByte1 = data);
     }
 
@@ -257,7 +257,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       default:
-        this.errorLog(this, "Error in LDA");
+        this.errorLog(this, 'Error in LDA');
         break;
     }
   }
@@ -283,7 +283,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       default:
-        this.errorLog(this, "Error in LDA_Mem");
+        this.errorLog(this, 'Error in LDA_Mem');
         break;
     }
   }
@@ -309,7 +309,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       default:
-        this.errorLog(this, "Error in STA");
+        this.errorLog(this, 'Error in STA');
         break;
     }
   }
@@ -330,7 +330,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       default:
-        this.errorLog(this, "Error in TXA");
+        this.errorLog(this, 'Error in TXA');
         break;
     }
   }
@@ -351,7 +351,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       default:
-        this.errorLog(this, "Error in TYA");
+        this.errorLog(this, 'Error in TYA');
         break;
     }
   }
@@ -376,7 +376,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       default:
-        this.errorLog(this, "Error in ADC");
+        this.errorLog(this, 'Error in ADC');
         break;
     }
   }
@@ -397,7 +397,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       default:
-        this.errorLog(this, "Error in LDX");
+        this.errorLog(this, 'Error in LDX');
         break;
     }
   }
@@ -422,7 +422,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       default:
-        this.errorLog(this, "Error in LDX_Mem");
+        this.errorLog(this, 'Error in LDX_Mem');
         break;
     }
   }
@@ -443,7 +443,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       default:
-        this.errorLog(this, "Error in TAX");
+        this.errorLog(this, 'Error in TAX');
         break;
     }
   }
@@ -464,7 +464,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       default:
-        this.errorLog(this, "Error in LDY");
+        this.errorLog(this, 'Error in LDY');
         break;
     }
   }
@@ -489,7 +489,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       default:
-        this.errorLog(this, "Error in LDY_Mem");
+        this.errorLog(this, 'Error in LDY_Mem');
         break;
     }
   }
@@ -510,7 +510,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       default:
-        this.errorLog(this, "Error in TAY");
+        this.errorLog(this, 'Error in TAY');
         break;
     }
   }
@@ -526,7 +526,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       default:
-        this.errorLog(this, "Error in NOP");
+        this.errorLog(this, 'Error in NOP');
         break;
     }
   }
@@ -544,7 +544,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       default:
-        this.errorLog(this, "Error in BRK");
+        this.errorLog(this, 'Error in BRK');
         break;
     }
   }
@@ -571,7 +571,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       default:
-        this.errorLog(this, "Error in CPX");
+        this.errorLog(this, 'Error in CPX');
         break;
     }
   }
@@ -596,7 +596,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       default:
-        this.errorLog(this, "Error in BNE");
+        this.errorLog(this, 'Error in BNE');
         break;
     }
   }
@@ -629,7 +629,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       default:
-        this.errorLog(this, "Error in INC");
+        this.errorLog(this, 'Error in INC');
         break;
     }
   }
@@ -641,7 +641,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         if (this.xReg === 1 || this.xReg === 2) {
           MMU.decodedByte1 = this.yReg;
         } else if (this.xReg === 3) {
-          this.errorLog(this, "SYS 3 will be coming in a later release");
+          this.errorLog(this, 'SYS 3 will be coming in a later release');
         }
 
         break;
@@ -651,7 +651,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
           process.stdout.write(this.yReg.toString());
         } else if (this.xReg === 2) {
           let data = ASCII.getChar(MMU.decodedByte1);
-          process.stdout.write("" + data); //must concat with a string or error will ensue
+          process.stdout.write('' + data); //must concat with a string or error will ensue
         }
 
         break;
@@ -661,7 +661,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
         break;
 
       default:
-        this.errorLog(this, "Error in SYS");
+        this.errorLog(this, 'Error in SYS');
     }
   }
 
@@ -761,7 +761,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
    */
   pulse(): void {
     //see the initial state of the CPU
-    if (this.cpuClockCount === 0) console.log(colors.blue.bold("Output: "));
+    if (this.cpuClockCount === 0) console.log(colors.blue.bold('Output: '));
 
     //increment for each pulse
     this.cpuClockCount++;
