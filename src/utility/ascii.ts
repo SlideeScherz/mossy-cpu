@@ -1,4 +1,3 @@
-var colors = require("../../node_modules/colors/lib/index");
 
 /** Class to decode from Hex to Character and back
  * -Must also be static so we do not create an Alias
@@ -10,11 +9,7 @@ export class ASCII {
   constructor() {
     ASCII.setMap();
 
-    console.log(
-      colors.green(
-        "[Utility: ASCII] Created ASCII map. Elements: " + ASCII.ASCIIMap.size
-      )
-    );
+    console.log("[Utility: ASCII] Created ASCII map. Elements: " + ASCII.ASCIIMap.size);
   }
 
   /** Create a map with ASCII characters and their corresponding hex code

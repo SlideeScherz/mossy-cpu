@@ -6,34 +6,17 @@ import { Keyboard } from './hardware/Keyboard';
 import { InterruptController } from './hardware/InterruptController';
 import { op } from './utility/opCode';
 
-var colors = require('../node_modules/colors/lib/index');
+const colors = require('../node_modules/colors/lib/index');
 
-//Possibly the max speed for node.js
-const CLOCK_INTERVAL: number = 20;
-
-/**test bounds and memory of your 6502*/
-const stessTest = [
-  op.LDA,
-  0xa9,
+const testTXA = [
   op.LDX,
-  0x01,
-  op.CPX,
-  0x13,
-  0x00,
-  op.LDY_Mem,
-  0x0b,
-  0x00,
-  op.STA,
-  0xf0,
-  0x00,
-  op.INC,
-  0x0b,
-  0x00,
-  op.BNE,
-  0xf5,
-  0x00,
-  0x00, //brk
-];
+  0x02,
+
+  // load yReg with string, then Print yReg String
+  op.TXA,
+  
+]
+
 
 /**Print hello world to the screen */
 const helloWorld = [
@@ -105,6 +88,9 @@ export class System {
 
   private debug: boolean = null;
 
+  //Possibly the max speed for node.js
+  private CLOCK_INTERVAL: number = 10;
+
   constructor(debug: boolean) {
     this.debug = debug;
   }
@@ -124,25 +110,27 @@ export class System {
 
   public startSystem(): boolean {
     //Initialize Hardware (turn on components)
-    this._CPU = new Cpu(1, 'CPU', false);
+    this._CPU = new Cpu(1, 'CPU', true);
     this._Clock = new Clock(3, 'CLK', false);
     this._MMU = new MMU(4, 'MMU', false);
     this._KEY = new Keyboard(5, 'KEY', false);
     this._IRQ = new InterruptController(6, 'IRQ', false);
 
     //populate Clock.listeners[] with hardware
-    this._Clock.listeners[0] = this._CPU;
-    this._Clock.listeners[1] = this._KEY;
-    this._Clock.listeners[2] = this._IRQ;
+    this._Clock.listeners.push(this._CPU);
+    this._Clock.listeners.push(this._KEY);
+    this._Clock.listeners.push(this._IRQ);
 
     /*==================6502 Startup==================*/
 
-    this.loadProgram(0x00, powers);
+    this.loadProgram(0, testTXA);
+    //this.loadProgram(0x00, helloWorld);
+    //this.loadProgram(helloWorld.length, powers);
 
     //Pulse with a timed interval repeat
     const intervalObj = setInterval(() => {
       this._Clock.cycle();
-    }, CLOCK_INTERVAL);
+    }, this.CLOCK_INTERVAL);
 
     return true;
   }

@@ -1,18 +1,17 @@
 import { expect } from 'chai';
 import { Memory } from '../src/hardware/Memory';
 
+//redefine console.log so we disable console output
+console.log = function() {}
+
 const mem = new Memory(11, 'Memory.test.ts', false);
 
 describe('Memory', () => {
-  it('memory array type', () => {
+  it('memory is an array', () => {
     expect(mem.memory).to.be.an('array');
   });
 
-  it('memory capacity type', () => {
-    expect(mem.memoryCapacity).to.be.a('number');
-  });
-
-  it('memory capacity value', () => {
+  it('memory capacity is 0xffff', () => {
     expect(mem.memoryCapacity).to.equal(0xffff);
   });
 

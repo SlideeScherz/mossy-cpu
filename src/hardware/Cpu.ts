@@ -137,39 +137,11 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
     }
   }
 
+  //TODO:
   /**Logic based off sReg
    * - Handles errors, overflow and other sReg commands
    */
-  private monitorRegisters(): void {
-    /**Array of 16 bit registers to quickly evaluate in sReg*/
-    let twoByteRegArr: number[] = [this.pc, this.sp];
-
-    /**Array of 8 bit registers to quickly evaluate in sReg*/
-    let oneByteRegArr: number[] = [this.ir, this.xReg, this.yReg];
-
-    /**All CPU and MMU Registers */
-    let allRegArr: number[] = twoByteRegArr.concat(oneByteRegArr);
-
-    //check all registers and make sure they are within bounds
-    oneByteRegArr.forEach((reg) => {
-      if (reg > 0xff) {
-        this.sReg = 6;
-      }
-    });
-
-    //check all registers and make sure they are within bounds
-    twoByteRegArr.forEach((reg) => {
-      if (reg > 0xffff) {
-        this.sReg = 6;
-      }
-    });
-
-    allRegArr.forEach((reg) => {
-      if (reg < 0) {
-        this.sReg = 7;
-      }
-    });
-  }
+  //private monitorRegisters(): void {}
 
   /** Get next opCode instruction.
    * - Always step 1.
@@ -177,27 +149,29 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
    * - Before reading, INC the program counter.
    */
   private fetch(): void {
+    
     //only skip on the first execution
     if (this.cpuClockCount > 1) {
       this.pc++;
     }
-
+    
     //Set the IR to the current data at the address in the PC
     this.ir = MMU_CPU.read(this.pc);
-
-    //if (this.debug) console.time(`Running ${MMU_CPU.hexLog(this.ir, 1)}`);
   }
 
-  /** Decode the operands for an instruction
+  /** Decode the operands for an instruction and send to MMU
    * @param operands how many operands the opcode has (0-2)
-   * @param register data (register) to read from if operands is 0
+   * @param register data to read from. Pass in the ***register memeber***
    */
-  private decode(operands: number, data?: number): void {
-    //one byte decode
+  private decode(operands: number, register?: number): void {
+    //zero memory read. Read from register
     if (operands === 0) {
-      data == undefined
-        ? this.errorLog(this, 'Provide data in decode')
-        : (MMU.decodedByte1 = data);
+      if (register === undefined)
+        this.errorLog(this, 'Provide data in decode')
+
+      else {
+        MMU.decodedByte1 = register;
+      }
     }
 
     //one byte decode
@@ -227,7 +201,6 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
     //end the pipeline and restart, or handle interupt
     this.OpComplete = true;
 
-    //if (this.debug) console.timeEnd(`Running ${MMU_CPU.hexLog(this.ir, 1)}`);
   }
 
   /** resets pipeline Logic for when a operation is done*/
@@ -760,6 +733,7 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
    * - Simulate CPU Pipeline
    */
   pulse(): void {
+
     //see the initial state of the CPU
     if (this.cpuClockCount === 0) console.log(colors.blue.bold('Output: '));
 
@@ -770,9 +744,6 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
     //handle instructions
     this.runPipeline();
 
-    //set sReg is any issues detected
-    this.monitorRegisters();
-
     //check CPU status
     this.getStatus();
 
@@ -781,5 +752,6 @@ export class Cpu extends Hardware implements ClockListener, Interupt {
 
     //Restart Pipline process after logic is set to completed
     if (this.OpComplete) this.restartPipeline();
+
   }
 }
